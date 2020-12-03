@@ -1,0 +1,41 @@
+long duration;
+int distance;
+
+long readUltrasonicDistance(int pin)
+{
+  pinMode(pin, OUTPUT);
+  digitalWrite(pin, LOW);
+  delayMicroseconds(2);
+  // sets the pin on HIGH state for 10 micro seconds
+  digitalWrite(pin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(pin, LOW);
+  pinMode(pin, INPUT);
+  // Reads the pin, and returns the sound wave travel time in microseconds
+  return pulseIn(pin, HIGH);
+}
+
+void setup()
+{
+  pinMode(7, INPUT);
+  pinMode(13, OUTPUT);
+  pinMode(8, OUTPUT);
+  Serial.begin(9600);
+
+}
+
+void loop()
+{
+  
+  distance=readUltrasonicDistance(7)*0.034/2; // Distance=(Time x SpeedOfSound)/2  
+  Serial.print("distance= "); 
+  Serial.println(distance);
+  if (distance <= 10) {
+    digitalWrite(13, HIGH); // replace with the pump
+	}
+  else {
+    digitalWrite(13,LOW);
+  }
+  delayMicroseconds(10);
+}
+
